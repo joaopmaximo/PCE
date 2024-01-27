@@ -22,28 +22,28 @@ public class AnamneseAdulto {
 
 	private enum TipoAtendimento {
 		avaliacao,
-		orientacao
+		orientacao;
 	}
 
 	private enum Sexo {
 		masculino,
 		feminino,
-		nao_informado
+		nao_informado;
 	}
-	
+
 	private enum Escolaridade {
 		fundamental_completo,
 		ensino_medio_completo,
 		ensino_superior_incompleto,
 		ensino_superior_completo,
-		outra
+		outra;
 	}
-	
+
 	private enum Periodo {
 		manha,
 		tarde,
 		noite,
-		NA
+		NA;
 	}
 
 	@Serial
@@ -54,7 +54,7 @@ public class AnamneseAdulto {
 	@Column(name = "id")
 	private Integer id;
 
-	@Column(name = "nome", length = 30, nullable = false)
+	@Column(name = "nome", length = 60, nullable = false)
 	private String nome;
 
 	@Column(name = "tipo_atendimento", nullable = false)
@@ -64,18 +64,39 @@ public class AnamneseAdulto {
 	@Column(name = "data_nascimento", nullable = false)
 	private LocalDate data_nascimento;
 
-	@Column(name = "idade", nullable = false)
-	private Integer idade;
+    @Column(name = "idade", columnDefinition = "TINYINT UNSIGNED")
+    private Integer idade;
 
 	@Column(name = "sexo", nullable = false)
 	@Enumerated(EnumType.STRING)
 	private Sexo sexo;
-
-	@Column(name = "cidade", nullable = false);
+	
+	@Column(name = "cidade", nullable = false)
 	private String cidade;
-
-	@Column(name = "bairro", nullable = false);
+	
+	@Column(name = "bairro", nullable = false)
 	private String bairro;
+	
+	@Column(name = "escolaridade", nullable = false)
+	@Enumerated(EnumType.STRING)
+	private Escolaridade escolaridade;
+
+	@Column(name = "periodo_estudo", nullable = false)
+	@Enumerated(EnumType.STRING)
+	private Periodo periodo_estudo;
+
+	@Column(name = "lanche_estudo", nullable = false)
+    private Boolean lanche_estudo;
+	
+	@Column(name = "periodo_trabalho", nullable = false)
+	@Enumerated(EnumType.STRING)
+	private Periodo periodo_trabalho;
+	
+	@Column(name = "lanche_trabalho", nullable = false)
+    private Boolean lanche_trabalho;
+
+	@Column(name = "profissao", length = 60, nullable = false)
+	private String profissao;
 
 	@Column(name = "data_atendimento", nullable = false, updatable = false)
 	private LocalDate data_atendimento;
@@ -83,14 +104,12 @@ public class AnamneseAdulto {
 	@PrePersist
 	protected void onCreate() {
 		data_atendimento = LocalDate.now();
-		Integer idadeAux = LocalDate.now().getYear() - data_nascimento.getYear();
+		idade = LocalDate.now().getYear() - data_nascimento.getYear();
 
 		if (data_nascimento.getMonthValue() > LocalDate.now().getMonthValue() ||
 				(data_nascimento.getMonthValue() == LocalDate.now().getMonthValue() &&
 						data_nascimento.getDayOfMonth() > LocalDate.now().getDayOfMonth())) {
-			idade = idadeAux--;
-		} else {
-			idade = idadeAux;
+			idade--;
 		}
 	}
 
