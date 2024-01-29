@@ -1,5 +1,5 @@
--- Active: 1706151844325@@127.0.0.1@3306@main
-CREATE TABLE AnamneseAdulto (
+-- Active: 1706205769736@@127.0.0.1@222@main
+CREATE TABLE anamnese_adulto (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(60) NOT NULL,
     tipo_atendimento ENUM('avaliacao', 'orientacao') NOT NULL,
